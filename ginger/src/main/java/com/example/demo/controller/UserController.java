@@ -16,35 +16,49 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/create")
+	@RequestMapping("users/create")
 	public String create(@RequestParam String firstName,  @RequestParam String lastName, @RequestParam String email) {
 		Users user = userService.create(firstName, lastName, email);
 		return user.toString();
 	}
 	
-	@RequestMapping("/get")
-	public Users getUser(@RequestParam String firstName) {
-		return userService.getByFirstName(firstName);
+	//search users by first or last name
+	@RequestMapping("/users/search")
+	public Users getUser(@RequestParam String name) {
+		return userService.getByName(name, name);
 	}
 	
-	@RequestMapping("/getAll")
+	//add friend
+	@RequestMapping("/users/addFriend")
+	public void addFriend(String name, String friend) {
+		userService.addFriend(name, friend);
+	}
+	
+	//list friends
+	@RequestMapping("/users/listFriends")
+	public List<Users> listFriends(String name){
+		return userService.getFriendsList(name);
+	}
+	
+	@RequestMapping("/users/getAll")
 	public List<Users> getAll(){
 		return userService.getAll();
 	}
 	
-	@RequestMapping("/update")
-	public String update(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email) {
-		Users user = userService.update(firstName, lastName, email);
-		return user.toString();
+	@RequestMapping("/users/update")
+	//String firstName, @RequestParam String lastName, @RequestParam String email
+	public String update(@RequestParam Users user) {
+		userService.update(user);
+		return user.toString() + " updated";
 	}
 	
-	@RequestMapping("/delete")
-	public String delete(@RequestParam String firstName) {
-		userService.delete(firstName);
-		return "Deleted " + firstName;
+	@RequestMapping("/users/delete")
+	public String delete(@RequestParam String name) {
+		userService.delete(name);
+		return "Deleted " + name;
 	}
 	
-	@RequestMapping("/deleteAll")
+	@RequestMapping("/users/deleteAll")
 	public String deleteAll() {
 		userService.deleteAll();
 		return "Deleted all records!"; 

@@ -25,26 +25,46 @@ public class UserService {
 		return usersRepository.findAll();
 	}
 	
-	public Users getByFirstName(String firstName) {
-		return usersRepository.findByFirstName(firstName);
+	//search
+	public Users getByName(String firstName, String lastName) {
+		return usersRepository.findByFirstNameOrLastName(firstName,lastName);
 	}
 	
 	//update operation
-	public Users update(String firstName, String lastName, String email) {
-		Users user = usersRepository.findByFirstName(firstName);
-		user.setLastName(lastName);
-		user.setEmail(email);
-		return usersRepository.save(user);
+	public Users update(Users user){
+		Users x = usersRepository.findByFirstNameOrLastName(user.getFirstName(), user.getFirstName());
+		x.setFirstName(user.getFirstName());
+		x.setLastName(user.getLastName());
+		return usersRepository.save(x);
 	}
+	
+	public void addFriend(String name, String friend) {
+		Users nameObj = usersRepository.findByFirstNameOrLastName(name, name);
+		Users friendObj = usersRepository.findByFirstNameOrLastName(friend, friend);
+		nameObj.addFrienToList(friendObj);
+		usersRepository.save(nameObj);
+	}
+	
+//	public Users friendAdd(String name, String friendName) {
+//		Users user = usersRepository.findByFirstNameOrLastName(name, name);
+//		Users friend = usersRepository.findByFirstNameOrLastName(friendName, friendName);
+//		user.addFrienToList(friend);
+//		return user;
+//	}
 	
 	//Delete operation
 	public void deleteAll() {
 		usersRepository.deleteAll();
 	}
 	
-	public void delete(String firstName) {
-		Users user = usersRepository.findByFirstName(firstName);
+	public void delete(String name) {
+		Users user = usersRepository.findByFirstNameOrLastName(name, name);
 		usersRepository.delete(user);
+	}
+
+	public List<Users> getFriendsList(String name) {
+		Users x = usersRepository.findByFirstNameOrLastName(name, name);
+		return x.getFriends();
 	}
 
 }
