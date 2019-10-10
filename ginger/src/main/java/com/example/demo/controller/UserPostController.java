@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.UserPost;
 import com.example.demo.service.UserPostService;
-
+// controls operations.
 @RestController
 public class UserPostController {
 	@Autowired
