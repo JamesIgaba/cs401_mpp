@@ -21,7 +21,7 @@ public class UserController {
 		Users user = userService.create(firstName, lastName, email);
 		return user.toString();
 	}
-	
+	//just testing
 	//search users by first or last name
 	@RequestMapping("/users/search")
 	public Users getUser(@RequestParam String name) {
