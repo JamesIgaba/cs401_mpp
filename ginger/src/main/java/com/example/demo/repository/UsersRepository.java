@@ -9,7 +9,9 @@ import com.example.demo.model.Users;
 
 @Repository
 public interface UsersRepository extends MongoRepository<Users, String> {
-	//public Users findByFirstName(String firstName);
-	public Users findByFirstNameOrLastName(String firstName, String lastName);
+	
+	public Users findByFirstNameOrLastNameOrFullName(String firstName, String lastName, String fullName);
+	
+	public Users findByEmail(String email);
 	
 }

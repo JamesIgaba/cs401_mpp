@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,55 +11,84 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Users;
 import com.example.demo.service.UserService;
 
-@RestController
+@RestController("/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("users/create")
-	public String create(@RequestParam String firstName,  @RequestParam String lastName, @RequestParam String email) {
-		Users user = userService.create(firstName, lastName, email);
-		return user.toString();
+	//login
+	@RequestMapping("/login")
+	public Users login (String email, String password) {
+		return userService.loginService(email, password);
 	}
-	//just testing
-	//search users by first or last name
-	@RequestMapping("/users/search")
+	
+	/*
+	 * //create user
+	 * 
+	 * @RequestMapping("users/create") public String create(@RequestParam String
+	 * firstName, @RequestParam String lastName, @RequestParam String
+	 * email, @RequestParam String password) { Users user =
+	 * userService.create(firstName, lastName, email, password); return
+	 * user.getFullName() + "'s ccount created" ; }
+	 */
+	
+	//create user
+	@RequestMapping("/create")
+	public String create(@RequestBody Users user) {
+		Users x = userService.create(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
+		return x.getFullName() + "'s ccount created" ;
+	}
+	
+	//get user object by email
+	@RequestMapping("/getByEmail")
+	public Users getByEmail(String email) {
+		return userService.getByEmailService(email);
+	}
+	
+	//search users by first or last name or full name
+	@RequestMapping("/search")
 	public Users getUser(@RequestParam String name) {
-		return userService.getByName(name, name);
+		return userService.getByName(name, name,name);
+	}
+	
+	//send friend request
+	@RequestMapping("/sendFriendRequest")
+	public void sendFriendRequest(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
+		userService.sendFriendRequestService(userEmailId, friendEmailId);
 	}
 	
 	//add friend
-	@RequestMapping("/users/addFriend")
-	public void addFriend(String name, String friend) {
-		userService.addFriend(name, friend);
+	@RequestMapping("/addFriend")
+	public void addFriend(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
+		userService.addFriend(userEmailId, friendEmailId);
 	}
 	
 	//list friends
-	@RequestMapping("/users/listFriends")
-	public List<Users> listFriends(String name){
-		return userService.getFriendsList(name);
+	@RequestMapping("/listFriends")
+	public List<Users> listFriends(String userEmailId){
+		return userService.getFriendsList(userEmailId);
 	}
 	
-	@RequestMapping("/users/getAll")
+	@RequestMapping("/getAll")
 	public List<Users> getAll(){
 		return userService.getAll();
 	}
 	
-	@RequestMapping("/users/update")
+	@RequestMapping("/update")
 	//String firstName, @RequestParam String lastName, @RequestParam String email
 	public String update(@RequestParam Users user) {
 		userService.update(user);
 		return user.toString() + " updated";
 	}
 	
-	@RequestMapping("/users/delete")
+	@RequestMapping("/delete")
 	public String delete(@RequestParam String name) {
 		userService.delete(name);
 		return "Deleted " + name;
 	}
 	
-	@RequestMapping("/users/deleteAll")
+	@RequestMapping("/deleteAll")
 	public String deleteAll() {
 		userService.deleteAll();
 		return "Deleted all records!"; 

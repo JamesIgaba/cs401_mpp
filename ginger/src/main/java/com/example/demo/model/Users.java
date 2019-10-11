@@ -10,23 +10,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Users {
+	//location, gender, -hobbies and interests
 	
+	@Id
+	String email;
+	String password;
 	String firstName;
 	String lastName;
 	String fullName;
+	String gender;
 	int age;
-	@Id
-	String email;
 	Date dateOfBirth;
-	List<Users> friends;
-	List<Users> friendRequests;
+	List<String> friends;
+	List<String> friendRequests;
 	
-	public Users(String firstName, String lastName, String email) {
+	public Users(String firstName, String lastName, String email, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.password = password;
 		friends = new ArrayList<>();
-		friendRequests = new ArrayList<Users>();
+		friendRequests = new ArrayList<>();
 	}
 
 	public String getFirstName() {
@@ -77,16 +81,28 @@ public class Users {
 		fullName = firstName + " " + lastName;
 	}
 
-	public List<Users> getFriends() {
+	public List<String> getFriends() {
 		return friends;
 	}
 	
-	public List<Users> getFriendRequests() {
+	public List<String> getFriendRequests() {
 		return friendRequests;
 	}
 	
-	public void addFrienToList(Users u) {
-		friends.add(u);
+	public void addFriendRequest(String emailId) {
+		friendRequests.add(emailId);
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void addFriendToList(String emailId) {
+		friends.add(emailId);
 	}
 
 	public String toString() {
