@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +24,19 @@ public class UserController {
 		return userService.loginService(email, password);
 	}
 	
+	//create user
 	/*
-	 * //create user
-	 * 
-	 * @RequestMapping("users/create") public String create(@RequestParam String
-	 * firstName, @RequestParam String lastName, @RequestParam String
-	 * email, @RequestParam String password) { Users user =
-	 * userService.create(firstName, lastName, email, password); return
-	 * user.getFullName() + "'s ccount created" ; }
+	 * @RequestMapping("/create") public String create(@RequestBody Users user) {
+	 * Users x = userService.create(user.getFirstName(), user.getLastName(),
+	 * user.getEmail(), user.getPassword()); return x.getFullName() +
+	 * "'s ccount created" ; }
 	 */
 	
-	//create user
 	@RequestMapping("/create")
-	public String create(@RequestBody Users user) {
-		Users x = userService.create(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
+	public String create(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, 
+			@RequestParam String password, @RequestParam int year, @RequestParam int month, @RequestParam int day, 
+			String gender) {
+		Users x = userService.create(firstName, lastName, email, password, year, month, day, gender);
 		return x.getFullName() + "'s ccount created" ;
 	}
 	
@@ -83,9 +83,9 @@ public class UserController {
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(@RequestParam String name) {
-		userService.delete(name);
-		return "Deleted " + name;
+	public String delete(@RequestParam String userEmailId) {
+		userService.delete(userEmailId);
+		return "Deleted " + userEmailId;
 	}
 	
 	@RequestMapping("/deleteAll")

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,12 @@ public class UserService {
 	private UsersRepository usersRepository;
 	
 	//create user
-	public Users create(String firstName, String lastName, String email, String password) {
-		return usersRepository.save(new Users(firstName, lastName, email, password));
+	public Users create(String firstName, String lastName, String email, 
+			String password, int year, int month,int day, String gender) throws NullPointerException{
+		if(!usersRepository.findById(email).isPresent())
+			return usersRepository.save(new Users(firstName, lastName, email, password, LocalDate.of(year, month, day), gender));
+		else
+			throw new NullPointerException("Email entered has been registered before.");
 	}
 	
 	//login
@@ -40,9 +45,11 @@ public class UserService {
 	
 	//update operation
 	public Users update(Users user){
-		Users x = usersRepository.findByFirstNameOrLastNameOrFullName(user.getFirstName(), user.getFirstName(), user.getFullName());
+		Users x = usersRepository.findByEmail(user.getEmail());
 		x.setFirstName(user.getFirstName());
 		x.setLastName(user.getLastName());
+		x.setGender(user.getGender());
+		x.setHobbies(x.getHobbies());
 		return usersRepository.save(x);
 	}
 	
@@ -74,8 +81,8 @@ public class UserService {
 		usersRepository.deleteAll();
 	}
 	
-	public void delete(String name) {
-		Users user = usersRepository.findByFirstNameOrLastNameOrFullName(name, name,name);
+	public void delete(String userEmailId) {
+		Users user = usersRepository.findByEmail(userEmailId);
 		usersRepository.delete(user);
 	}
 
