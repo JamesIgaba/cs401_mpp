@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 public class Like {
+	String likeId;
 	boolean like;
 	String commentUserId;
 	String postId;
@@ -10,6 +11,10 @@ public class Like {
 		this.like = like;
 	}
 	
+	public String getLikeId() {
+		return likeId;
+	}
+
 	public String getCommentUserId() {
 		return commentUserId;
 	}

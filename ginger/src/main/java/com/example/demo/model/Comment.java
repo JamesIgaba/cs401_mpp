@@ -1,6 +1,10 @@
 package com.example.demo.model;
 
+import org.springframework.data.annotation.Id;
+
 public class Comment {
+	@Id
+	String commentId;
 	String comment;
 	String commentUserId;
 	String postId;
@@ -10,6 +14,10 @@ public class Comment {
 		this.comment = comment;
 	}
 	
+	public String getCommentId() {
+		return commentId;
+	}
+
 	public String getCommentUserId() {
 		return commentUserId;
 	}
