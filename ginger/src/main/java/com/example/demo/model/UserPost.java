@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,22 +12,22 @@ public class UserPost {
 	String UserId;
 	String content;
 	Users user;
-	Date date;
+	LocalDate date;
 	
-	
-	public UserPost(String content) {
-		this.date = new Date();
+	public UserPost(String userId, String content) {
+		this.date = LocalDate.now();
 		this.content = content;
-		this.UserId = new Users().getEmail();
+		this.UserId = userId;
 	}
 
-	public String getId() {
+	public String getpostId() {
 		return postId;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
+	
 	public String getContent() {
 		return content;
 	}
@@ -40,5 +39,4 @@ public class UserPost {
 	public String getUserId() {
 		return UserId;
 	}
-
 }

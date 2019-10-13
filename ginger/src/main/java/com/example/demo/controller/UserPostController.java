@@ -17,9 +17,9 @@ public class UserPostController {
 	private UserPostService userPostService;
 	
 	@RequestMapping("/create")
-	public String create(@RequestParam String content) {
-		UserPost userpost = userPostService.create(content);
-		return "userpost created";
+	public UserPost create(@RequestParam String userId, @RequestParam String content) {
+		UserPost userpost = userPostService.create(userId, content);
+		return userpost;
 	}
 	@RequestMapping("/get")
 	public UserPost getPostById(@RequestParam String postId){
