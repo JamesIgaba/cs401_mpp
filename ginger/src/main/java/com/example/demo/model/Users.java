@@ -41,6 +41,10 @@ public class Users {
 		hobbies = new ArrayList<String>();	
 	}
 
+	public Users() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
