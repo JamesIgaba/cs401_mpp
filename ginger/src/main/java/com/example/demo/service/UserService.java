@@ -65,15 +65,16 @@ public class UserService {
 	//add friend passing objects
 	public void addFriend(String userEmailId , String friendEmailId) {
 		Users user = usersRepository.findByEmail(userEmailId);
+		user.getFriendRequests().remove(friendEmailId);
 		user.addFriendToList(friendEmailId);
 		usersRepository.save(user);
 	}
 	
 	//sending friend request
 	public void sendFriendRequestService(String userEmailId , String friendEmailId) {
-		Users user = usersRepository.findByEmail(userEmailId);
-		user.addFriendRequest(friendEmailId);
-		usersRepository.save(user);
+		Users friend = usersRepository.findByEmail(friendEmailId);
+		friend.addFriendRequest(userEmailId);
+		usersRepository.save(friend);
 	}
 	
 	//Delete operation
@@ -98,6 +99,27 @@ public class UserService {
 	//find by email service
 	public Users getByEmailService(String email) {
 		return usersRepository.findByEmail(email);
+	}
+	
+	//serching users with 'like'
+	public List<Users> searchUsers(String name){
+		return usersRepository.findByFullNameLikeIgnoreCase(name);
+	}
+	
+	//decline friend request service
+	public void declineFriendService(String userEmailId, String friendEmailId) {
+		Users x = usersRepository.findByEmail(userEmailId);
+		x.getFriendRequests().remove(friendEmailId);
+		usersRepository.save(x);
+	}
+
+	public List<Users> getFriendRequestList(String userEmailId) {
+		Users user = usersRepository.findByEmail(userEmailId);
+		List <Users> friendRequests = new ArrayList<Users>();
+		for(String x : user.getFriendRequests()) {
+			friendRequests.add(usersRepository.findByEmail(x));
+		}
+		return friendRequests;
 	}
 
 }

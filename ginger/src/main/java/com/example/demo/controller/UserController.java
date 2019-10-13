@@ -47,10 +47,10 @@ public class UserController {
 		return userService.getByEmailService(email);
 	}
 	
-	//search users by first or last name or full name
+	//searching users by entering any string
 	@RequestMapping("/search")
-	public Users getUser(@RequestParam String name) {
-		return userService.getByName(name, name,name);
+	public List<Users> getUserByLike(@RequestParam String name) {
+		return userService.searchUsers(name);
 	}
 	
 	//send friend request
@@ -59,16 +59,28 @@ public class UserController {
 		userService.sendFriendRequestService(userEmailId, friendEmailId);
 	}
 	
-	//add friend
+	//accept friend request
 	@RequestMapping("/addFriend")
 	public void addFriend(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
 		userService.addFriend(userEmailId, friendEmailId);
+	}
+	
+	//reject friend request
+	@RequestMapping("/declineFriend")
+	public void declineFriend(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
+		userService.declineFriendService(userEmailId, friendEmailId);
 	}
 	
 	//list friends
 	@RequestMapping("/listFriends")
 	public List<Users> listFriends(String userEmailId){
 		return userService.getFriendsList(userEmailId);
+	}
+	
+	//list friend requests
+	@RequestMapping("/listFriendRequests")
+	public List<Users> listFriendRequests(String userEmailId){
+		return userService.getFriendRequestList(userEmailId);
 	}
 	
 	@RequestMapping("/getAll")
