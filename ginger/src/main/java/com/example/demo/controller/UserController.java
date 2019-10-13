@@ -64,7 +64,7 @@ public class UserController {
 	public void addFriend(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
 		userService.addFriend(userEmailId, friendEmailId);
 	}
-	
+	//jk
 	//list friends
 	@RequestMapping("/listFriends")
 	public List<Users> listFriends(String userEmailId){
