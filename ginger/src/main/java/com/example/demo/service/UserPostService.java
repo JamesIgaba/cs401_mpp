@@ -17,8 +17,8 @@ public class UserPostService {
 	private UserPost up;
 	
 		//create user_post
-		public UserPost create(String content) {
-			return userPostRepository.save(new UserPost(content));
+		public UserPost create(String userId, String content) {
+			return userPostRepository.save(new UserPost(userId, content));
 		}
 
 		//Retrieve operation
