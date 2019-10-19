@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,8 @@ public class UserPostController {
 	private UserPostService userPostService;
 	
 	@RequestMapping("/create")
-	public UserPost create(@RequestParam String userId, @RequestParam String content) {
-		UserPost userpost = userPostService.create(userId, content);
+	public UserPost create(@RequestBody UserPost post) {
+		UserPost userpost = userPostService.createPost(post);
 		return userpost;
 	}
 	@RequestMapping("/get")
@@ -28,7 +29,7 @@ public class UserPostController {
 	
 	@RequestMapping("/getAll")
 	public List<UserPost> getAll(){
-		return userPostService.getAll();
+		return userPostService.getAllPosts();
 	}
 	
 	@RequestMapping("/update")
