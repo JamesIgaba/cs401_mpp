@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,13 +14,14 @@ import com.example.demo.service.UserPostService;
 
 @RequestMapping("/post")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserPostController {
 	@Autowired
 	private UserPostService userPostService;
 	
 	@RequestMapping("/create")
-	public UserPost create(@RequestBody UserPost post) {
-		UserPost userpost = userPostService.createPost(post);
+	public UserPost create(@RequestBody UserPost usrPost) {
+		UserPost userpost = userPostService.create(usrPost.getUserId(), usrPost.getContent());
 		return userpost;
 	}
 	@RequestMapping("/get")
@@ -29,18 +31,18 @@ public class UserPostController {
 	
 	@RequestMapping("/getAll")
 	public List<UserPost> getAll(){
-		return userPostService.getAllPosts();
+		return userPostService.getAll();
 	}
 	
 	@RequestMapping("/update")
-	public String update(@RequestParam String content) {
-		UserPost userPost = userPostService.update(content);
+	public String update(@RequestBody UserPost usrPost) {
+		UserPost userPost = userPostService.update(usrPost.getContent());
 		return userPost.toString();
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(@RequestParam String content) {
-		userPostService.delete(content);
+	public String delete(@RequestParam String postId) {
+		userPostService.delete(postId);
 		return "Deleted ";
 	}
 	

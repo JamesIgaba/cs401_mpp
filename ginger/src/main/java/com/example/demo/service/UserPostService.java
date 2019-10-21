@@ -17,8 +17,8 @@ public class UserPostService {
 	private UserPost up;
 	
 		//create user_post
-		public UserPost createPost(UserPost post) {
-			return userPostRepository.save(post);
+		public UserPost create(String userId, String content) {
+			return userPostRepository.save(new UserPost(userId, content));
 		}
 
 		//Retrieve operation
@@ -26,7 +26,7 @@ public class UserPostService {
 			return userPostRepository.findByPostId(postId);
 		}
 		
-		public List<UserPost> getAllPosts(){
+		public List<UserPost> getAll(){
 			return userPostRepository.findAll();
 		}
 		

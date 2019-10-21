@@ -16,10 +16,15 @@ public class CommentService {
 	private Comment com;
 	
 			//create comment
-			public Comment create(String commentUserId, String content) {
-				return commentRepository.save(new Comment(commentUserId, content));
+			public Comment create(String commentUserId, String content, String postId) {
+				return commentRepository.save(new Comment(commentUserId, content, postId));
 			}
-
+			public List<Comment> getCommentByPostId(String postId) {
+				return commentRepository.findByPostId(postId);
+			}
+			public int countCommentByPostId(String postId) {
+				return commentRepository.findByPostId(postId).size();
+			}
 			//Retrieve operation
 			public Comment getComment(String commentId) {
 				return commentRepository.findByCommentId(commentId);

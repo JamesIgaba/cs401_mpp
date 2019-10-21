@@ -9,7 +9,7 @@ public class UserPost {
 
 	@Id
 	String postId;
-	String UserId;
+	String userId;
 	String content;
 	Users user;
 	LocalDate date;
@@ -17,7 +17,7 @@ public class UserPost {
 	public UserPost(String userId, String content) {
 		this.date = LocalDate.now();
 		this.content = content;
-		this.UserId = userId;
+		this.userId = userId;
 	}
 
 	public String getpostId() {
@@ -37,6 +37,9 @@ public class UserPost {
 	}
 	
 	public String getUserId() {
-		return UserId;
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

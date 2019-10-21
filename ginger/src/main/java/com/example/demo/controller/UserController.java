@@ -1,9 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,17 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Users;
 import com.example.demo.service.UserService;
 
-@RequestMapping("/user")
 @RestController
+@RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 	
-	//login here
+	//login
 	@RequestMapping("/login")
 	public Users login (String email, String password) {
-		return userService.loginService(email, password);
+		Users user = userService.loginService(email, password);
+		if(user!=null)
+			return user;
+		return new Users(null, null, null, null,null,0,0,0);
 	}
 	
 	//create user
@@ -33,18 +41,26 @@ public class UserController {
 	 * "'s ccount created" ; }
 	 */
 	
+//	@RequestMapping("/create")
+//	public Users create(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, 
+//			@RequestParam String password, @RequestParam int year, @RequestParam int month, @RequestParam int day, 
+//			String gender) {
+//		Users x = userService.create(firstName, lastName, email, password, year, month, day, gender);
+//		return x;
+//	}
 	@RequestMapping("/create")
-	public String create(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, 
-			@RequestParam String password, @RequestParam int year, @RequestParam int month, @RequestParam int day, 
-			String gender) {
-		Users x = userService.create(firstName, lastName, email, password, year, month, day, gender);
-		return x.getFullName() + "'s ccount created" ;
+	public Users create(@RequestBody Users user) {
+		Users x = userService.create(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),user.getGender(),user.getYear()
+				,user.getMonth(),user.getDay());
+		return x;
 	}
-	
 	//get user object by email
 	@RequestMapping("/getByEmail")
 	public Users getByEmail(String email) {
-		return userService.getByEmailService(email);
+		Users user= userService.getByEmailService(email);
+		if(user!=null)
+			return user;
+		return new Users(null, null, null, null,null,0,0,0);
 	}
 	
 	//searching users by entering any string
@@ -55,14 +71,14 @@ public class UserController {
 	
 	//send friend request
 	@RequestMapping("/sendFriendRequest")
-	public void sendFriendRequest(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
-		userService.sendFriendRequestService(userEmailId, friendEmailId);
+	public Users sendFriendRequest(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
+		return userService.sendFriendRequestService(userEmailId, friendEmailId);
 	}
 	
 	//accept friend request
 	@RequestMapping("/addFriend")
-	public void addFriend(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
-		userService.addFriend(userEmailId, friendEmailId);
+	public Users addFriend(@RequestParam String userEmailId, @RequestParam String friendEmailId) {
+		return userService.addFriend(userEmailId, friendEmailId);
 	}
 	
 	//reject friend request
@@ -105,5 +121,22 @@ public class UserController {
 	public String deleteAll() {
 		userService.deleteAll();
 		return "Deleted all records!"; 
+	}
+	
+	@RequestMapping("/getChart1")
+	public Map<String, Integer> getChart1(){
+		Map<String, Integer> interestsList = new HashMap<String, Integer>();
+		interestsList.put("Reading",20);
+		interestsList.put("PlayingSports",13);
+		interestsList.put("Chess",18);
+		return interestsList;
+	}
+	
+	@RequestMapping("/getChart2")
+	public Map<String, Integer> getChart2(){
+		Map<String, Integer> interestsList = new HashMap<String, Integer>();
+		interestsList.put("Male",400);
+		interestsList.put("Female",300);
+		return interestsList;
 	}
 }

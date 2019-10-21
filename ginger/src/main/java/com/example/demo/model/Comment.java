@@ -9,9 +9,10 @@ public class Comment {
 	String commentUserId;
 	String postId;
 	
-	public Comment(String postId, String comment) {
-		this.postId = postId;
+	public Comment(String commentUserId, String comment, String postId) {
+		this.commentUserId = commentUserId;
 		this.comment = comment;
+		this.postId =postId;
 	}
 	
 	public String getCommentId() {
