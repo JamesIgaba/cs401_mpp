@@ -14,4 +14,6 @@ public interface UsersRepository extends MongoRepository<Users, String> {
 	
 	public Users findByEmail(String email);
 	
+	public List<Users> findByFullNameLikeIgnoreCase(String name);
+	
 }
