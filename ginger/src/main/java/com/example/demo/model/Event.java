@@ -18,9 +18,11 @@ public class Event {
 	String userEmailId;
 	List<String> attendees;
 	
-	public Event(String name, String userEmailId) {
-		this.name = name;
+	public Event(String userEmailId, String name, String description, LocalDate dateOfEvent) {
 		this.userEmailId = userEmailId;
+		this.name = name;
+		this.description = description;
+		this.dateOfEvent = dateOfEvent;
 		attendees = new ArrayList<String>();
 	}
 

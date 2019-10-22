@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.model.Event;
 
 @Repository
-public interface EventRespository extends MongoRepository<Event, String>{
+public interface EventRepository extends MongoRepository<Event, String>{
 
 	public List<Event> findByNameIgnoreCase(String name);
 	
