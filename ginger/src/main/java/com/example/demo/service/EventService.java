@@ -27,7 +27,7 @@ public class EventService {
 	}
 	
 	//update event
-	public Event updateEvent(String eventId,String userEmailId, String name, String description, int day, int month, int year) {
+	public Event updateEvent(String eventId, String name, String description, int day, int month, int year) {
 		Optional<Event> event = eventRepo.findById(eventId);
 		if(event.isPresent()) {
 			event.get().setName(name);
@@ -37,9 +37,22 @@ public class EventService {
 		return eventRepo.save(event.get());
 	}
 	
+	//search event by any string like name
+	public List<Event> searchEventService(String name) {
+		return eventRepo.findByNameIgnoreCase(name);
+	}
+	
 	//search events created by a user
 	public List<Event> searchEvents(String userEmailId){
 		return eventRepo.findByUserEmailId(userEmailId);
 	}
 
+	public void addAttendeeService(String eventId, String userEmailId) {
+		Optional<Event> event = eventRepo.findById(eventId);
+		if(event.isPresent()) {
+			event.get().addAttendees(userEmailId);
+			eventRepo.save(event.get());
+		}
+	}
+	
 }

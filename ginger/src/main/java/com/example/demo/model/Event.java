@@ -70,4 +70,8 @@ public class Event {
 		return id;
 	}
 	
+	public void addAttendees(String userEmailId) {
+		attendees.add(userEmailId);
+	}
+	
 }
